@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	namespace 命名空间 ,sql分类化管理，理解sql隔离
 	mapper 代理
  -->
-<mapper namespace="test">
+<mapper namespace="test"> 
 
 <!--   -->
 <select id ="findUserById" parameterType="int" resultType="cn.itcast.mybatis.po.User"  >
@@ -18,6 +18,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT * FROM USER WHERE USERNAME LIKE '%${value}%'
 </select>
 
+<insert id="insertUser" parameterType="cn.itcast.mybatis.po.User" >
+	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+	SELECT LAST_INSERT_ID()
+	</selectKey>
+	
+	insert into user(username,birthday,sex,address)
+	 value(#{username},#{birthday},#{sex},#{address})
+</insert>
+
+<delete id="deleteUser" parameterType="java.lang.Integer">
+	delete from user where id=#{id}
+</delete>
+
+<update id="updateUser" parameterType="cn.itcast.mybatis.po.User">
+	update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} where id=#{id}
+</update>
 
 
 </mapper>
