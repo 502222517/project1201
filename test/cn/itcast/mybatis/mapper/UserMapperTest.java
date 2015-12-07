@@ -1,6 +1,7 @@
 package cn.itcast.mybatis.mapper;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cn.itcast.mybatis.po.User;
+import cn.itcast.mybatis.po.UserCustom;
+import cn.itcast.mybatis.po.UserQueryVo;
 
 public class UserMapperTest{
 
@@ -37,6 +40,24 @@ public class UserMapperTest{
 	}
 	
 	
+	@Test
+	public void testFindUserList() throws Exception {
+		 SqlSession sqlSession=sqlSessionFactory.openSession();
+		 
+		 UserMapper userMapper =sqlSession.getMapper(UserMapper.class);
+		 
+		 UserQueryVo userQueryVo=new UserQueryVo();
+		 UserCustom userCustom=new UserCustom();
+		 userCustom.setUsername("ÕÅÈý");
+		 userCustom.setSex("1");
+		 userQueryVo.setUserCustom(userCustom);
+		 
+		 List<UserCustom>  list= userMapper.findUserList(userQueryVo);
+		 
+		 sqlSession.close();
+		 
+		 System.out.println(list);
+	}
 	
 
 }
