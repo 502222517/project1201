@@ -9,6 +9,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  -->
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper"> 
 
+
+<sql id="query_user_where">
+	<if test="userCustom!=null">
+		<if test="userCustom.sex!=null and userCustom.sex!=''">
+			and sex=#{userCustom.sex}
+		</if>
+		<if test="userCustom.username!=null and userCustom.username!=''">
+			and username=#{userCustom.username}
+		</if>
+	</if>
+</sql>
+
 <!--   -->
 <select id ="findUserById" parameterType="int" resultType="User"  >
 	SELECT * FROM USER WHERE ID =#{value}
@@ -19,7 +31,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id ="findUserList" parameterType="UserQueryVo" resultType="UserCustom"  >
-	SELECT * FROM USER WHERE  sex=#{userCustom.sex} and username like '%${userCustom.username}%'
+	SELECT * FROM USER 
+	<where>
+		<include refid="query_user_where"></include>
+		<foreach collection="ids" item="user_id" open="and id in (" close=")" separator="," >
+		#{user_id}
+		</foreach>
+	</where> 
 </select>
 
 <insert id="insertUser" parameterType="cn.itcast.mybatis.po.User" >
