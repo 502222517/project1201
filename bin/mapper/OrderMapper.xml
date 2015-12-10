@@ -64,6 +64,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 </resultMap>
 
+<resultMap type="cn.itcast.mybatis.po.Orders" id="OrderUserLazyloadingResultMap">
+	<id column="id" property="id" />
+	<result column="user_id" property="userId" />
+	<result column="number" property="number" />
+	<result column="createtime" property="createtime" />
+	<result column="note" property="note" />
+	<association property="user" javaType="cn.itcast.mybatis.po.User" 
+	select="cn.itcast.mybatis.mapper.UserMapper.findUserById" column="user_id">
+		
+	</association>
+</resultMap>
+
+
+
 
 <select id="findOrderList" resultType="cn.itcast.mybatis.po.OrderCustom" >
 	SELECT orders.* ,user.username,user.address FROM orders,USER WHERE orders.user_id =user.id
@@ -101,6 +115,16 @@ FROM
   items
 WHERE orders.user_id = user.id AND orderdetail.orders_id=orders.id AND orderdetail.items_id = items.id
 </select>
+
+
+<select id="findOrdersUserLazyLoading" resultMap="OrderUserLazyloadingResultMap" >
+	select * from orders
+</select>
+
+
+
+
+
 
 
  

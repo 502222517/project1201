@@ -18,6 +18,8 @@ public interface UserMapper {
 	
 	public void deleteUser(int id) throws Exception;
 	
+	
+	
 }
 
 

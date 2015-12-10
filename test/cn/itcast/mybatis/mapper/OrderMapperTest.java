@@ -86,6 +86,24 @@ private SqlSessionFactory sqlSessionFactory;
 		sqlSession.close();
 	}
 	
+	@Test
+	public void testFindOrdersUserLazyLoading() throws Exception {
+		
+		SqlSession sqlSession=sqlSessionFactory.openSession();
+		
+		OrderMapper orderMapper= sqlSession.getMapper(OrderMapper.class);
+		
+		List<Orders>  list= orderMapper.findOrdersUserLazyLoading();
+		
+		for(Orders orders:list){
+			User user=orders.getUser();
+			System.out.println(user);
+		}
+		System.out.println(list);
 	
-
+		sqlSession.close();
+	} 
+	
+	
+	
 }
