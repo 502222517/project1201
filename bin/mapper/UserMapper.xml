@@ -9,6 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  -->
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper"> 
 
+<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
 
 <sql id="query_user_where">
 	<if test="userCustom!=null">
